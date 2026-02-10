@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Score - Check Your Resume Compatibility</title>
+    <meta name="description"
+        content="Analyze your resume's ATS compatibility and get instant feedback on how to improve it for job applications.">
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)" />
+                    <path d="M20 10L28 16V24L20 30L12 24V16L20 10Z" stroke="white" stroke-width="2" fill="none" />
+                    <circle cx="20" cy="20" r="4" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#8b5cf6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>ATS Resume Score</h1>
+            </div>
+            <p class="tagline">Optimize your resume for Applicant Tracking Systems</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="card">
+                    <h2>Analyze Your Resume</h2>
+                    <p class="subtitle">Upload your resume and paste the job description to get instant ATS
+                        compatibility feedback</p>
+
+                    <form id="analysisForm" class="analysis-form">
+                        <!-- Resume Upload -->
+                        <div class="form-group">
+                            <label for="resumeFile" class="form-label">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                                </svg>
+                                Resume (PDF)
+                            </label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" id="resumeFile" name="resume" accept=".pdf" required
+                                    class="file-input">
+                                <label for="resumeFile" class="file-label" id="fileLabel">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="17 8 12 3 7 8" />
+                                        <line x1="12" y1="3" x2="12" y2="15" />
+                                    </svg>
+                                    <span class="file-text">Click to upload or drag and drop</span>
+                                    <span class="file-subtext">PDF only (Max 10MB)</span>
+                                </label>
+                            </div>
+                            <div id="fileInfo" class="file-info"></div>
+                        </div>
+
+                        <!-- Job Description -->
+                        <div class="form-group">
+                            <label for="jobDescription" class="form-label">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" />
+                                </svg>
+                                Job Description
+                            </label>
+                            <textarea id="jobDescription" name="jobDescription" rows="8"
+                                placeholder="Paste the job description here...&#10;&#10;Example:&#10;We are looking for a Software Engineer with experience in Python, JavaScript, and cloud technologies. The ideal candidate will have strong problem-solving skills and experience with modern web frameworks..."
+                                required class="textarea"></textarea>
+                            <div class="char-count" id="charCount">0 characters</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span class="btn-text">Analyze Resume</span>
+                            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Loading Section -->
+            <section class="loading-section hidden" id="loadingSection">
+                <div class="card loading-card">
+                    <div class="loader"></div>
+                    <h3>Analyzing Your Resume</h3>
+                    <p>Please wait while we analyze your resume against the job description...</p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="resultsSection">
+                <div class="card results-card">
+                    <!-- Score Display -->
+                    <div class="score-header">
+                        <h2>ATS Compatibility Score</h2>
+                        <button class="new-analysis-btn" id="newAnalysisBtn">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a2 2 0 012-2h4a2 2 0 012 2v0a2 2 0 01-2 2H6a2 2 0 01-2-2v0zm2.5 10a.5.5 0 01.5-.5h2a.5.5 0 010 1H7a.5.5 0 01-.5-.5zm-5-7A2.5 2.5 0 014 2.5h8A2.5 2.5 0 0114.5 5v8a2.5 2.5 0 01-2.5 2.5H4A2.5 2.5 0 011.5 13V5z" />
+                            </svg>
+                            New Analysis
+                        </button>
+                    </div>
+
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <svg class="score-ring" width="200" height="200">
+                                <circle class="score-ring-bg" cx="100" cy="100" r="85" />
+                                <circle class="score-ring-fill" cx="100" cy="100" r="85" id="scoreRing" />
+                            </svg>
+                            <div class="score-value">
+                                <span class="score-number" id="scoreNumber">0</span>
+                                <span class="score-max">/100</span>
+                            </div>
+                        </div>
+
+                        <div class="score-breakdown">
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">Keyword Match</div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill" id="keywordBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="keywordScore">0%</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">Resume Structure</div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill" id="structureBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="structureScore">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                <path fill-rule="evenodd"
+                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" />
+                            </svg>
+                            Recommendations
+                        </h3>
+                        <ul class="recommendations-list" id="recommendationsList">
+                            <!-- Recommendations will be inserted here -->
+                        </ul>
+                    </div>
+
+                    <!-- Keywords Section -->
+                    <div class="keywords-section">
+                        <div class="keywords-matched">
+                            <h4>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10.97 4.97a.75.75 0 011.071 1.05l-3.992 4.99a.75.75 0 01-1.08.02L4.324 8.384a.75.75 0 111.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 01.02-.022z" />
+                                </svg>
+                                Matched Keywords (<span id="matchedCount">0</span>)
+                            </h4>
+                            <div class="keywords-tags" id="matchedKeywords">
+                                <!-- Matched keywords will be inserted here -->
+                            </div>
+                        </div>
+
+                        <div class="keywords-missing">
+                            <h4>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M8 15A7 7 0 108 1a7 7 0 000 14zm0-1A6 6 0 108 2a6 6 0 000 12zm1-6a1 1 0 11-2 0 1 1 0 012 0zM8 4a.905.905 0 00-.9.995l.35 3.507a.552.552 0 001.1 0l.35-3.507A.905.905 0 008 4z" />
+                                </svg>
+                                Missing Keywords (<span id="missingCount">0</span>)
+                            </h4>
+                            <div class="keywords-tags" id="missingKeywords">
+                                <!-- Missing keywords will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Gap Analysis Section -->
+                    <div class="skill-gap-section" id="skillGapSection">
+                        <h3 class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                            </svg>
+                            Skill Gap Analysis
+                        </h3>
+
+                        <!-- Skill Match Summary -->
+                        <div class="skill-summary">
+                            <div class="skill-summary-card">
+                                <div class="skill-summary-icon">📊</div>
+                                <div class="skill-summary-content">
+                                    <div class="skill-summary-label">Skill Match</div>
+                                    <div class="skill-summary-value" id="skillMatchPercentage">0%</div>
+                                </div>
+                            </div>
+                            <div class="skill-summary-card">
+                                <div class="skill-summary-icon">✅</div>
+                                <div class="skill-summary-content">
+                                    <div class="skill-summary-label">Skills Matched</div>
+                                    <div class="skill-summary-value" id="skillsMatched">0</div>
+                                </div>
+                            </div>
+                            <div class="skill-summary-card">
+                                <div class="skill-summary-icon">⚠️</div>
+                                <div class="skill-summary-content">
+                                    <div class="skill-summary-label">Skills Missing</div>
+                                    <div class="skill-summary-value" id="skillsMissing">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills by Category -->
+                        <div class="skills-by-category" id="skillsByCategory">
+                            <!-- Categories will be inserted here -->
+                        </div>
+
+                        <!-- Learning Recommendations -->
+                        <div class="learning-recommendations" id="learningRecommendations">
+                            <h4>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                                    <path
+                                        d="M9 2a1 1 0 011 1v5.586l2.707-2.707a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 8.586V3a1 1 0 011-1z" />
+                                    <path d="M3 12a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" />
+                                </svg>
+                                Learning Recommendations
+                            </h4>
+                            <div class="learning-cards" id="learningCards">
+                                <!-- Learning recommendations will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for job seekers | ATS Resume Score © 2026</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
