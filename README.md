@@ -57,6 +57,21 @@ The backend will run on `http://localhost:8000`
 - Simply open `frontend/index.html` in your web browser
 - Or use a local server like Live Server in VS Code
 
+## Docker Deployment (Recommended)
+
+The easiest way to run the application is using Docker:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Access the application
+# Frontend: http://localhost
+# Backend API: http://localhost:8000
+```
+
+For detailed Docker instructions, see [DOCKER.md](DOCKER.md)
+
 ## Usage
 
 1. **Upload Your Resume**: Click to upload or drag and drop a PDF resume

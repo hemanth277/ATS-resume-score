@@ -47,3 +47,6 @@ frontend/test-api.html
 
 # Environment variables
 .env
+
+# Docker
+.dockerignore
